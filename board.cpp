@@ -26,12 +26,33 @@ class Board {
             reset();
         }
 
-        bool add(string *board[]) { //adds the contents of the array to game if they are valid (meaning only one move has been made between it and the previous board state)
-
+        void getBoard(string *board[]) { //used by minmax-a-b to get current board-state by passing an array by reference
+            for (int i = 0; i < 9; i++) {
+                board[i] = game[move][i];
+            }
         }
 
-        int changeDetect (string *board[]) {
+        bool add(string board[]) { //adds the contents of the array to game if they are valid (meaning only one move has been made between it and the previous board state)
+            bool success = false;
+            if (changeDetect(board) == 1) {
+                move++;
+                for (int i = 0; i < 9; i++) {
+                    game[move][i] = board[i];
+                }
+                success = true;
+            }
+            return success;
+        }
 
+        int changeDetect (string board[]) { //used to ensure that the move made in add() is legal
+            int changes = 0;
+            for (int i = 0; i < 9; i++) {
+                if (game[move][i] != board[i]) {
+                    if (game[move][i] == "  ") changes++; //checks to ensure move is legal
+                    else return -1; //if move is illegal
+                }
+            }
+            return changes;
         }
 
         void reset() { //reset: cleans the board, setting every value to empty, void
