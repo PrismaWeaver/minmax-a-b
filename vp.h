@@ -1,7 +1,7 @@
 #ifndef VP_H
 #define VP_H
 
-#include <cstring>
+#include <string>
 using std::string;
 
 struct VP {
