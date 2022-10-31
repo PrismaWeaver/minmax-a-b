@@ -1,3 +1,4 @@
+#include "vp.h"
 //this is where the difficulty happens
 //this should probably be a method in twoplayer for simplicity
 //but for now bc its such a big portion of this project it has its own file
@@ -5,7 +6,18 @@
 //notes: I dont entire understand how UT helps the control flow
 //you might want to revise this sudo code if I got that part wrong
 
-//void minmax-a-b(position, depth, player, passthresh, usethresh, eval) {}
+
+vp minmax_a_b(
+    position current, 
+    int depth, 
+    bool maxPlayer, 
+    int passThresh, 
+    int useThresh, 
+    int eval()) {
+        if(depth >= 2){
+            
+        }
+};
 //bc all minmax-a-b does is update the boardstate it doesnt need to return anything
 //position: which node is currently being evaluated,
 //          because each node is a boardstate, this variable probably needs to be an array

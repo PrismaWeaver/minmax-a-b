@@ -2,3 +2,12 @@
 //contains two variables
 //VALUE: an int that holds the respective value of a node
 //PATH: holds the parent position array
+struct position{
+  int row;
+  int column;  
+};
+
+struct vp{
+    int value;
+    position parent;
+};
