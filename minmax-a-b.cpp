@@ -4,8 +4,12 @@
 
 //notes: I dont entire understand how UT helps the control flow
 //you might want to revise this sudo code if I got that part wrong
+#include "vp.h"
+#include "evals.h"
 
-//void minmax-a-b(position, depth, player, passthresh, usethresh, eval) {}
+VP minmax_a_b(string board[], int d, string p, eval e, int passthresh = -120, int usethresh = 100) {
+
+}
 //bc all minmax-a-b does is update the boardstate it doesnt need to return anything
 //position: which node is currently being evaluated,
 //          because each node is a boardstate, this variable probably needs to be an array
