@@ -50,10 +50,12 @@ class Board { //used to keep track of the game state
             reset();
         }
 
-        void getBoard(string *board[]) { //used by minmax-a-b to get current board-state by passing an array by reference
+        string * getBoard() { //used by minmax-a-b to get current board-state by passing an array by reference
+            string board[9];
             for (int i = 0; i < 9; i++) {
                 board[i] = game[move][i];
             }
+            return board;
         }
 
         bool add(string board[]) { //adds the contents of the array to game if they are valid (meaning only one move has been made between it and the previous board state)
