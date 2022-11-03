@@ -1,9 +1,17 @@
-//main is stupid simple
-//make a twoplayer class object
-//call the game method 6 times for the following eval pairs
-//1 and 2
-//1 and 3
-//1 and 4
-//2 and 3
-//2 and 4
-//3 and 4
+#include "twoplayer.cpp"
+#include "evals.h"
+
+void main() {
+    twoplayer engine;
+    eval1 e1;
+    eval2 e2;
+    eval3 e3;
+    eval4 e4;
+    engine.playRound(e1, e2);
+    engine.playRound(e1, e3);
+    engine.playRound(e1, e4);
+    engine.playRound(e2, e3);
+    engine.playRound(e2, e4);
+    engine.playRound(e3, e4);
+    return 0;
+}
