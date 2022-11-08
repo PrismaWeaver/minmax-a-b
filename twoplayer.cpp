@@ -20,7 +20,7 @@ class twoplayer {
         //passthresh(PT):   struct pointer, starts with an initialized value thats super low
         //                  gets updated at d=1 by values of nodes at d=2
         //                  value compaired to UT after all d=2 nodes of this d=1 node are checked
-        //usethresh(UT):    starts with an initialized value thats super low
+        //usethresh(UT):    starts with an initialized value thats super high, gets changed at depth 0 and 1 based on the returned PT
 
         VP minmax_a_b(string board[], int d, string p, Eval e, int pt, int ut) {
             VP thing, compare;
@@ -82,18 +82,23 @@ class twoplayer {
             temp = game.getBoard();
             for (int i = 0; i < 9; i++) board[i] = (temp); //transfer contents of pointer to array
             move = minmax_a_b(board, 0, p, e, -120, 100);
-            game.add(move.path);
+            if (!game.add(move.path)) cout << "Error: Invalid move detected" << endl;
             return game.goal();
         }
 
     public:
         void playRound(Eval max, Eval min) {
+            cout << "round start" << endl;
             bool win = false;
+            int count = 0;
             while (win == false) {
+                cout << "Begin round " << count++ << endl;
                 win = turn("X", max);
                 if (win) break;
+                cout << "Begin round " << count++ << endl;
                 win = turn("O", min);
             }
+            cout << "Round ended, printing results" << endl;
             game.print();
             game.reset();
         }
