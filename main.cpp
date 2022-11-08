@@ -1,12 +1,12 @@
 #include "twoplayer.cpp"
 #include "evals.h"
 
-void main() {
+int main() {
     twoplayer engine;
-    eval1 e1;
-    eval2 e2;
-    eval3 e3;
-    eval4 e4;
+    Eval1 e1;
+    Eval2 e2;
+    Eval3 e3;
+    Eval4 e4;
     engine.playRound(e1, e2);
     engine.playRound(e1, e3);
     engine.playRound(e1, e4);
