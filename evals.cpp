@@ -5,7 +5,7 @@
 using std::cout;
 using std::endl;
 
- int Eval1::value(string board[], string p) {
+ int Eval::value(string board[], string p) {
     int max = getNum(board, p), min;
     if (p == "X") min = getNum(board, "O");
     else min = getNum(board, "X");

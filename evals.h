@@ -7,33 +7,27 @@ using std::string;
 
 class Eval {
     public:
-        virtual int value(string board[], string p) = 0;
+        int value(string board[], string p);
+    private:
+        virtual int getNum(string board[], string p) = 0;
 };
 
 class Eval1: public Eval{
-    public:
-        int value(string board[], string p);
     private:
         int getNum(string board[], string p);
 };
 
 class Eval2: public Eval{
-    public:
-        int value(string board[], string p);
     private: 
         int getNum(string board[], string p);
 };
 
 class Eval3: public Eval{
-    public:
-        int value(string board[], string p);
     private:
         int getNum(string board[], string p);
 };
 
 class Eval4: public Eval{
-    public:
-        int value(string board[], string p);
     private:
         int getNum(string board[], string p);
 };
