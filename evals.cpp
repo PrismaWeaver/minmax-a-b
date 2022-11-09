@@ -1,19 +1,18 @@
 //this is where each of the eval functions will be stored
 //each should be of the same base class type, but impliment different methods
 #include "evals.h"
+#include <iostream>
+using std::cout;
+using std::endl;
 
-int Eval::value(string board[], string p) {
+ int Eval1::value(string board[], string p) {
     int max = getNum(board, p), min;
     if (p == "X") min = getNum(board, "O");
     else min = getNum(board, "X");
     return max - min;
-}//calculate # of open lines that player has their mark in, subtract opponent win lines from player win lines, return this as the value
+ }
 
-int Eval::getNum(string board[], string p){
-    return 0;
-}
-    
-    
+//calculate # of open lines that player has their mark in, subtract opponent win lines from player win lines, return this as the value
 int Eval1::getNum(string board[], string p) { //there is probably a better way of doing this honestly
     int value = 0;
     //rows
@@ -29,7 +28,6 @@ int Eval1::getNum(string board[], string p) { //there is probably a better way o
     if ((board[2] == " " || board[2] == p) && (board[4] == " " || board[4] == p) && (board[6] == " " || board[6] == p)) value++;
     return value;
 }
-
 
 // class Eval2 : public Eval { //eval 2 (chris)
 
