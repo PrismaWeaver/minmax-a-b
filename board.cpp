@@ -113,7 +113,7 @@ class Board { //used to keep track of the game state
         }
 
         void print() { //print: generates a visual of the current board state
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i <= move; i++) {
                 cout << UNDERLINE << " " << game[i][0] << " | " << game[i][1] << " | " << game[i][2] << " " << CLOSEUNDERLINE << endl;
                 cout << UNDERLINE << " " << game[i][3] << " | " << game[i][4] << " | " << game[i][5] << " " << CLOSEUNDERLINE << endl;
                 cout << " " << game[i][6] << " | " << game[i][7] << " | " << game[i][8] << endl;
