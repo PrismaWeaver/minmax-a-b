@@ -19,7 +19,9 @@
 int main() {
     cout << "begin testing" << endl;
     twoplayer engine;
-    Eval1 e1;
+    Eval1 first;
+    Eval * e1 = &first;
     engine.playRound(e1, e1);
+    delete e1;
     return 0;
 }

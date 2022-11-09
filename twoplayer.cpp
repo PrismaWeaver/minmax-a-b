@@ -22,7 +22,7 @@ class twoplayer {
         //                  value compaired to UT after all d=2 nodes of this d=1 node are checked
         //usethresh(UT):    starts with an initialized value thats super high, gets changed at depth 0 and 1 based on the returned PT
 
-        VP minmax_a_b(string board[], int d, string p, Eval e, int pt, int ut) {
+        VP minmax_a_b(string board[], int d, string p, Eval * e, int pt, int ut) {
             VP thing, compare;
             //begin step 1, determine if depth is enough
             if (d >= 2) return end(board, e, p);
@@ -68,14 +68,14 @@ class twoplayer {
             return count;
         }
 
-        VP end(string board[], Eval e, string p) { //generates what minmax_a_b returns
+        VP end(string board[], Eval * e, string p) { //generates what minmax_a_b returns
             VP thing;
             for (int i = 0; i < 9; i++) thing.path.board[i] = board[i]; 
-            thing.value = e.value(board, p);
+            thing.value = e->value(board, p);
             return thing;
         }
 
-        bool turn(string p, Eval e) { //completes one player turn
+        bool turn(string p, Eval * e) { //completes one player turn
             VP move;
             TTT temp;
             temp = game.getBoard();
@@ -85,7 +85,7 @@ class twoplayer {
         }
 
     public:
-        void playRound(Eval max, Eval min) {
+        void playRound(Eval * max, Eval * min) {
             cout << "round start" << endl;
             bool win = false;
             int count = 0;
