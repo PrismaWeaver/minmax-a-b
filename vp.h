@@ -1,13 +1,13 @@
-//a struct class for use with minmax-a-b
-//contains two variables
-//VALUE: an int that holds the respective value of a node
-//PATH: holds the parent position array
-struct position{
-  int row;
-  int column;  
+#ifndef VP_H
+#define VP_H
+
+#include "ttt.h"
+#include <string>
+using std::string;
+
+struct VP {
+    int value;  //VALUE: an int that holds the respective value of a node
+    TTT path;   //PATH: holds the parent position array, added to board class array if value is high enough
 };
 
-struct vp{
-    int value;
-    position parent;
-};
+#endif /*VP_H*/
