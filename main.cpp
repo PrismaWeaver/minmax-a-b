@@ -21,6 +21,7 @@ int main() {
     twoplayer engine;
     Eval1 first;
     Eval * e1 = &first;
+    cout << "testing eval 1" << endl;
     engine.playRound(e1, e1);
     delete e1;
     return 0;
