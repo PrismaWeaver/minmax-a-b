@@ -20,7 +20,7 @@ class twoplayer {
         //passthresh(PT):   struct pointer, starts with an initialized value thats super low
         //                  gets updated at d=1 by values of nodes at d=2
         //                  value compaired to UT after all d=2 nodes of this d=1 node are checked
-        //usethresh(UT):    starts with an initialized value thats super low
+        //usethresh(UT):    starts with an initialized value thats super high, gets changed at depth 0 and 1 based on the returned PT
 
         VP minmax_a_b(string board[], int d, string p, Eval e, int pt, int ut) {
             VP thing, compare;
@@ -34,66 +34,69 @@ class twoplayer {
             string o;
             if (p == "X") o = "O";
             else o = "X";
-            string *temp, container[ref];
+            TTT temp; //for transfering the board states
             //its easier to do the calculations for each individual child then move on to the next
-            for (int u = 0; u <= ref; u++) {
-                temp = children(board, p, u); //returns an array pointer
-                for (int i = 0; i < 9; i++) container[i] = *(temp + i); //transfer contents of pointer to array
-                compare = minmax_a_b(container, d + 1, o, e, -pt, -ut); //RECURSION CALL
-                if (compare.value < pt) { //this is where im not entirely sure if im doing it right
+            for (int u = 0; u < ref; u++) {
+                temp = children(board, p, u); //returns a TTT which holds a board
+                compare = minmax_a_b(temp.board, d + 1, o, e, -ut, -pt); //RECURSION CALL
+                if (compare.value > pt) { //this is where im not entirely sure if im doing it right
                     pt = compare.value;
-                    thing.value = compare.value;
-                    for (int q = 0; q < 9; q++) thing.path[q] = compare.path[q]; 
+                    thing.value = -compare.value;  
+                    thing.path = temp;
                 }
                 if (pt > ut) return thing;
             }
-            return compare;
+            return thing;
         }
 
-        string* children(string board[], string p, int u) { 
+        TTT children(string board[], string p, int u) { 
             int count = -1;
-            string *temp[9];
+            TTT temp;
             for (int i = 0; i < 9; i++) { //i itterates through board
-                if (board[i] == "  ") count++; //keeps track of empty strings reached
-                if (count == u) *temp[i] = p; //only changes the uth empty slot each pass
-                else *temp[i] = board[i]; //fills the rest of the board as normal
+                if (board[i] == " ") count++; //keeps track of empty strings reached
+                if (count == u) temp.board[i] = p; //only changes the uth empty slot each pass
+                else temp.board[i] = board[i]; //fills the rest of the board as normal
             }
-            return *temp;
+            return temp;
         }
 
         int empty(string board[]) { //counts the # of "  " values in the board
             int count = 0;
             for (int i = 0; i < 9; i++) {
-                if (board[i] == "  ") count++;
+                if (board[i] == " ") count++;
             }
             return count;
         }
 
         VP end(string board[], Eval e, string p) { //generates what minmax_a_b returns
             VP thing;
-            for (int i = 0; i < 9; i++) thing.path[i] = board[i]; 
+            for (int i = 0; i < 9; i++) thing.path.board[i] = board[i]; 
             thing.value = e.value(board, p);
             return thing;
         }
 
         bool turn(string p, Eval e) { //completes one player turn
             VP move;
-            string temp, board[9];
+            TTT temp;
             temp = game.getBoard();
-            for (int i = 0; i < 9; i++) board[i] = (temp); //transfer contents of pointer to array
-            move = minmax_a_b(board, 0, p, e, -120, 100);
-            game.add(move.path);
+            move = minmax_a_b(temp.board, 0, p, e, -100, 100);
+            if (!game.add(move.path.board)) cout << "Error: Invalid move detected" << endl;
             return game.goal();
         }
 
     public:
         void playRound(Eval max, Eval min) {
+            cout << "round start" << endl;
             bool win = false;
+            int count = 0;
             while (win == false) {
+                cout << "Begin round " << count++ << endl;
                 win = turn("X", max);
-                if (win) break;
+                if (win || count >= 9) break;
+                cout << "Begin round " << count++ << endl;
                 win = turn("O", min);
             }
+            cout << "Round ended, printing results" << endl;
             game.print();
             game.reset();
         }
