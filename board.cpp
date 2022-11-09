@@ -8,14 +8,14 @@ using std::endl;
 
 class Board { //used to keep track of the game state
     private:
-        string game[9][9];  //an array of board arrays, even indexs are p1's moves odd indexes are p2's
+        string game[10][9];  //an array of board arrays, even indexs are p1's moves odd indexes are p2's
         int move;           //holds which board is currently being analyzed
 
         int changeDetect (string board[]) { //used to ensure that the move made in add() is legal
             int changes = 0;
             for (int i = 0; i < 9; i++) {
                 if (game[move][i] != board[i]) {
-                    if (game[move][i] == "  ") changes++; //checks to ensure move is legal
+                    if (game[move][i] == " ") changes++; //checks to ensure move is legal
                     else return -1; //if move is illegal
                 }
             }
@@ -50,12 +50,12 @@ class Board { //used to keep track of the game state
             reset();
         }
 
-        string getBoard() { //used by minmax-a-b to get current board-state by passing an array by reference
-            string *board[9];
+        TTT getBoard() { //used by minmax-a-b to get current board-state by passing an array by reference
+            TTT board;
             for (int i = 0; i < 9; i++) {
-                board[i] = &game[move][i];
+                board.board[i] = game[move][i];
             }
-            return **board;
+            return board;
         }
 
         bool add(string board[]) { //adds the contents of the array to game if they are valid (meaning only one move has been made between it and the previous board state)
@@ -73,7 +73,7 @@ class Board { //used to keep track of the game state
         void reset() { //reset: cleans the board, setting every value to empty, void
             for (int i = 0; i < 9; i++) {
                 for (int u = 0; u < 9; u++) {
-                    game[i][u] = "  ";
+                    game[i][u] = " ";
                 }
             }
             move = 0;
@@ -109,7 +109,7 @@ class Board { //used to keep track of the game state
         }
 
         void print() { //print: generates a visual of the current board state
-            for (int i = 0; i < 9; i++) {
+            for (int i = 0; i < 10; i++) {
                 cout << UNDERLINE << " " << game[i][0] << " | " << game[i][1] << " | " << game[i][2] << " " << CLOSEUNDERLINE << endl;
                 cout << UNDERLINE << " " << game[i][3] << " | " << game[i][4] << " | " << game[i][5] << " " << CLOSEUNDERLINE << endl;
                 cout << " " << game[i][6] << " | " << game[i][7] << " | " << game[i][8] << endl;

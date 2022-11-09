@@ -53,7 +53,7 @@ class twoplayer {
             int count = -1;
             TTT temp;
             for (int i = 0; i < 9; i++) { //i itterates through board
-                if (board[i] == "  ") count++; //keeps track of empty strings reached
+                if (board[i] == " ") count++; //keeps track of empty strings reached
                 if (count == u) temp.board[i] = p; //only changes the uth empty slot each pass
                 else temp.board[i] = board[i]; //fills the rest of the board as normal
             }
@@ -63,7 +63,7 @@ class twoplayer {
         int empty(string board[]) { //counts the # of "  " values in the board
             int count = 0;
             for (int i = 0; i < 9; i++) {
-                if (board[i] == "  ") count++;
+                if (board[i] == " ") count++;
             }
             return count;
         }
@@ -77,10 +77,9 @@ class twoplayer {
 
         bool turn(string p, Eval e) { //completes one player turn
             VP move;
-            string temp, board[9];
+            TTT temp;
             temp = game.getBoard();
-            for (int i = 0; i < 9; i++) board[i] = (temp); //transfer contents of pointer to array
-            move = minmax_a_b(board, 0, p, e, -100, 100);
+            move = minmax_a_b(temp.board, 0, p, e, -100, 100);
             if (!game.add(move.path.board)) cout << "Error: Invalid move detected" << endl;
             return game.goal();
         }
@@ -93,7 +92,7 @@ class twoplayer {
             while (win == false) {
                 cout << "Begin round " << count++ << endl;
                 win = turn("X", max);
-                if (win) break;
+                if (win || count >= 9) break;
                 cout << "Begin round " << count++ << endl;
                 win = turn("O", min);
             }

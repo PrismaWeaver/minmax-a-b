@@ -17,16 +17,16 @@ int Eval::getNum(string board[], string p){
 int Eval1::getNum(string board[], string p) { //there is probably a better way of doing this honestly
     int value = 0;
     //rows
-    if ((board[0] == "  " || board[0] == p) && (board[1] == "  " || board[1] == p) && (board[2] == "  " || board[2] == p)) value++;
-    if ((board[3] == "  " || board[3] == p) && (board[4] == "  " || board[4] == p) && (board[5] == "  " || board[5] == p)) value++;
-    if ((board[6] == "  " || board[6] == p) && (board[7] == "  " || board[7] == p) && (board[8] == "  " || board[8] == p)) value++;
+    if ((board[0] == " " || board[0] == p) && (board[1] == " " || board[1] == p) && (board[2] == " " || board[2] == p)) value++;
+    if ((board[3] == " " || board[3] == p) && (board[4] == " " || board[4] == p) && (board[5] == " " || board[5] == p)) value++;
+    if ((board[6] == " " || board[6] == p) && (board[7] == " " || board[7] == p) && (board[8] == " " || board[8] == p)) value++;
     //columns
-    if ((board[0] == "  " || board[0] == p) && (board[3] == "  " || board[3] == p) && (board[6] == "  " || board[6] == p)) value++;
-    if ((board[1] == "  " || board[1] == p) && (board[4] == "  " || board[4] == p) && (board[7] == "  " || board[7] == p)) value++;
-    if ((board[2] == "  " || board[2] == p) && (board[5] == "  " || board[5] == p) && (board[8] == "  " || board[8] == p)) value++;
+    if ((board[0] == " " || board[0] == p) && (board[3] == " " || board[3] == p) && (board[6] == " " || board[6] == p)) value++;
+    if ((board[1] == " " || board[1] == p) && (board[4] == " " || board[4] == p) && (board[7] == " " || board[7] == p)) value++;
+    if ((board[2] == " " || board[2] == p) && (board[5] == " " || board[5] == p) && (board[8] == " " || board[8] == p)) value++;
     //diagonal
-    if ((board[0] == "  " || board[0] == p) && (board[4] == "  " || board[4] == p) && (board[8] == "  " || board[8] == p)) value++;
-    if ((board[2] == "  " || board[2] == p) && (board[4] == "  " || board[4] == p) && (board[6] == "  " || board[6] == p)) value++;
+    if ((board[0] == " " || board[0] == p) && (board[4] == " " || board[4] == p) && (board[8] == " " || board[8] == p)) value++;
+    if ((board[2] == " " || board[2] == p) && (board[4] == " " || board[4] == p) && (board[6] == " " || board[6] == p)) value++;
     return value;
 }
 
