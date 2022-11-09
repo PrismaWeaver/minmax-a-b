@@ -86,17 +86,13 @@ class twoplayer {
 
     public:
         void playRound(Eval * max, Eval * min) {
-            cout << "round start" << endl;
             bool win = false;
             int count = 0;
             while (win == false) {
-                cout << "Begin round " << count++ << endl;
                 win = turn("X", max);
                 if (win || count >= 9) break;
-                cout << "Begin round " << count++ << endl;
                 win = turn("O", min);
             }
-            cout << "Round ended, printing results" << endl;
             game.print();
             game.reset();
         }
