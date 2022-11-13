@@ -33,19 +33,23 @@ class Board { //used to keep track of the game state
             return index;
         }
 
-        bool win(array index, string p) { //uses 3 nested for loops to check for a winning status
+        bool win(string p) {
             bool success = false;
-            int add = 0, size;
-            if (p == "X") size = (move + 1) / 2;
-            else size = move / 2;
-            for (int i = 0; i < size - 2; i++) {
-                for (int u = i + 1; u < size - 1; u++) {
-                    for (int q = u + 1; q < size; q++) {
-                        add = index.index[i] + index.index[u] + index.index[q];
-                        if (add == 12) return true;
-                    }
+            for (int i = 0; i < 3; i++) {
+                //rows
+                if ((game[move][i * 3] == p) && (game[move][(i * 3) + 1] == p) && (game[move][(i * 3) + 2] == p)) {
+                    success = true;
+                    break;
+                }
+                //columns
+                if ((game[move][i] == p) && (game[move][i + 3] == p) && (game[move][i + 6] == p)) {
+                    success = true;
+                    break;
                 }
             }
+            //diagonal
+            if ((game[move][0] == p) && (game[move][4] == p) && (game[move][8] == p)) success = true;
+            if ((game[move][2] == p) && (game[move][4] == p) && (game[move][6] == p)) success = true;
             return success;
         }
 
@@ -83,7 +87,7 @@ class Board { //used to keep track of the game state
             move = 0;
         }
 
-        TTT magic() { //changes arangement of board-state indexes to align with their magic square values
+        /*TTT magic() { //changes arangement of board-state indexes to align with their magic square values
             // {0, 1, 2, 3, 4, 5, 6, 7, 8} becomes {1, 6, 5, 8, 4, 0, 3, 2, 7}
             TTT temp;
             temp.board[0] = game[move][5];
@@ -96,18 +100,13 @@ class Board { //used to keep track of the game state
             temp.board[7] = game[move][8];
             temp.board[8] = game[move][3];
             return temp;
-        }
+        }*/
 
         bool goal() { //evaluates the board based on magic square to determine if there is a winner: 0 no winner, 1 X, 2 O
             bool goal = false;
-            if (move >= 5) { //literally cannot win until move == 4, aka player 1 has at least 3 moves
-                array xIndex, oIndex;
-                xIndex = count("X");
-                oIndex = count("O");
-                if (win(xIndex, "X")) goal = true;
-                else if (move >= 6) { //ensure p2 has at least 3 moves
-                    if (win(oIndex, "O")) goal = true;
-                }
+            if (move >= 5) { //literally cannot win until move == 5, aka player 1 has at least 3 moves
+                if (win("X")) goal = true;
+                if (win("O")) goal = true;
             }
             return goal;
         }
