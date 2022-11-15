@@ -73,7 +73,7 @@ int Eval3::getNum(string board[], string p) { //eval 3 (kuda)
       potWin = 15 - (scores[indexP[i]] + scores[indexP[j]]);
       for (int z = 0; z < indexCounterBlank; z++) {
         if (potWin == scores[indexBlank[z]]) {
-          return indexBlank[z];
+          return 1000;
         }
       }
     }
@@ -85,7 +85,7 @@ int Eval3::getNum(string board[], string p) { //eval 3 (kuda)
       potWin = 15 - (scores[indexOpp[i]] + scores[indexOpp[j]]);
       for (int z = 0; z < indexCounterBlank; z++) {
         if (potWin == scores[indexBlank[z]]) {
-               return indexBlank[z];
+               return 900;
         }
       }
     }
@@ -121,7 +121,7 @@ int Eval3::getNum(string board[], string p) { //eval 3 (kuda)
       if (futureWin[i] == futureWin[j])
         count++;
     if (count == max_count) {
-        return indexBlank[i];
+        return count;
     }
   }
 
@@ -129,7 +129,7 @@ int Eval3::getNum(string board[], string p) { //eval 3 (kuda)
     for (int i = 1; i < indexCounterBlank; i++) {
       if (indexBlank[i] == 0 || indexBlank[i] == 2 || indexBlank[i] == 6 ||
           indexBlank[i] == 8) {
-            return indexBlank[i];
+            return 1;
       }
     }
   }
