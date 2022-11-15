@@ -31,7 +31,6 @@ int Eval1::getNum(string board[], string p) {
 
 // };
 
-/*
 int Eval3::getNum(string board[], string p) { //eval 3 (kuda)
   int scores[10] = {8, 3, 4, 1, 5,
                     9, 6, 7, 2}; // Stores the values for the magic squares
@@ -45,8 +44,14 @@ int Eval3::getNum(string board[], string p) { //eval 3 (kuda)
   int indexBlank[10] = {12, 12, 12, 12, 12, 12, 12, 12, 12, 12};
   int potWin;
   int indexCounter = 0;
-  string oppSign = "O";
-  string p = "X";
+  string oppSign;
+
+  if(p == "X"){
+    oppSign = "O";
+  }
+  else{
+    oppSign = "X";
+  }
 
   // Populate index arrays for each state a square can be in
   for (int i = 0; i < 10; i++) {
@@ -110,8 +115,6 @@ int Eval3::getNum(string board[], string p) { //eval 3 (kuda)
       max_count = count;
   }
 
-<<<<<<< Updated upstream
-=======
   for (int i = 0; i < indexCounterFW; i++) {
     int count = 1;
     for (int j = i + 1; j < indexCounterFW; j++)
@@ -130,9 +133,8 @@ int Eval3::getNum(string board[], string p) { //eval 3 (kuda)
       }
     }
   }
+}
 
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
 int Eval4::getNum(string board[], string p) { //Twee's Eval
     int p1, p2, p3;
     p1 = p2 = p3 = 0;
@@ -159,15 +161,4 @@ int Eval4::getNum(string board[], string p) { //Twee's Eval
         else if ((board[2] == p && board[4] == " " && board[6] == " ") || (board[2] == " " && board[4] == p && board[6] == " ") || (board[2] == p && board[4] == " " && board[6] == " ")) p1++;
     }
     return 50 * p3 + 5 * p2 + p1;
-<<<<<<< Updated upstream
 }
-=======
-}
-=======
-};
-*/
-// class Eval4 : public Eval { //eval 4 (twee)
-
-// };
->>>>>>> Stashed changes
->>>>>>> Stashed changes
