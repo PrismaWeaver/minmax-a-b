@@ -87,7 +87,7 @@ class Board { //used to keep track of the game state
             move = 0;
         }
 
-        /*TTT magic() { //changes arangement of board-state indexes to align with their magic square values
+        TTT magic() { //changes arangement of board-state indexes to align with their magic square values
             // {0, 1, 2, 3, 4, 5, 6, 7, 8} becomes {1, 6, 5, 8, 4, 0, 3, 2, 7}
             TTT temp;
             temp.board[0] = game[move][5];
@@ -100,7 +100,7 @@ class Board { //used to keep track of the game state
             temp.board[7] = game[move][8];
             temp.board[8] = game[move][3];
             return temp;
-        }*/
+        }
 
         bool goal() { //evaluates the board based on magic square to determine if there is a winner: 0 no winner, 1 X, 2 O
             bool goal = false;
