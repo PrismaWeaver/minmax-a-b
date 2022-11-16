@@ -28,35 +28,39 @@ int Eval1::getNum(string board[], string p) { //there is probably a better way o
 }
 
 int Eval2::getNum(std::string board[], std::string p) { //eval 2 (chris)
-    int p1, p2;
-    p1 = p2 = 0;
+    int p1, p2, p3;
+    p1 = p2 = p3 = 0;
 
     //rows
     for(int i = 0; i < 3; i++){
         string line = (board[i*3], board[i*3 + 1], board[i*3 + 2]);
-        if(line == (p, p, " ") || line == (p, " ", p) || line == (" ", p, p)) p1++;
-        else if (line == (p, " ", " ") || line == (" "," ", p) || line == (" ", p, " ")) p2++;
+        if(line == (p, p, p)) p3++;
+        if(line == (p, p, " ") || line == (p, " ", p) || line == (" ", p, p)) p2++;
+        else if (line == (p, " ", " ") || line == (" "," ", p) || line == (" ", p, " ")) p1++;
     }
 
     //columns
     for(int i = 0; i < 3; i++){
         string line = (board[i], board[i + 3], board[i + 6]);
-        if(line == (p, p, " ") || line == (p, " ", p) || line == (" ", p, p)) p1++;
-        else if (line == (p, " ", " ") || line == (" "," ", p) || line == (" ", p, " ")) p2++;
+        if(line == (p, p, p)) p3++;
+        if(line == (p, p, " ") || line == (p, " ", p) || line == (" ", p, p)) p2++;
+        else if (line == (p, " ", " ") || line == (" "," ", p) || line == (" ", p, " ")) p1++;
     }
 
     //diagnol
     string diagnol1 = (board[0], board[4], board[8]);
     string diagnol2 = (board[2], board[4], board[6]);
     
-    if(diagnol1 == (p, p, " ") || diagnol1 == (p, " ", p) || diagnol1 == (" ", p, p)) p1++;
-    else if (diagnol1 == (p, " ", " ") || diagnol1 == (" "," ", p) || diagnol1 == (" ", p, " ")) p2++;
+    if(diagnol1 == (p, p, p)) p3++;
+    if(diagnol1 == (p, p, " ") || diagnol1 == (p, " ", p) || diagnol1 == (" ", p, p)) p2++;
+    else if (diagnol1 == (p, " ", " ") || diagnol1 == (" "," ", p) || diagnol1 == (" ", p, " ")) p1++;
 
-    if(diagnol2 == (p, p, " ") || diagnol2 == (p, " ", p) || diagnol2 == (" ", p, p)) p1++;
-    else if (diagnol2 == (p, " ", " ") || diagnol2 == (" "," ", p) || diagnol2 == (" ", p, " ")) p2++;
+    if(diagnol2 == (p, p, p)) p3++;
+    if(diagnol2 == (p, p, " ") || diagnol2 == (p, " ", p) || diagnol2 == (" ", p, p)) p2++;
+    else if (diagnol2 == (p, " ", " ") || diagnol2 == (" "," ", p) || diagnol2 == (" ", p, " ")) p1++;
 
     
-    return (3*p1+p2);
+    return (20*p3+3*p2+p1);
 
 };
 
