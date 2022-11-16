@@ -87,17 +87,17 @@ class twoplayer {
         }
 
     public:
-        void playRound(Eval * max, Eval * min) {
-            bool win = false;
-            int count = 0;
-            while (!win) {
+        int playRound(Eval * max, Eval * min) {
+            int win = 0, count = 0;
+            while (win == 0) {
                 win = turn("X", max);
                 count++;
-                if (win || count >= 9) break; //ends the game if goal reached, or if game ties
+                if (win != 0 || count >= 9) break; //ends the game if goal reached, or if game ties
                 win = turn("O", min);
                 count++;
             }
             game.print();
             game.reset();
+            return win;
         }
 };
