@@ -20,17 +20,17 @@ int main() {
     twoplayer engine;
     Eval1 first;
     Eval2 second;
-    Eval3 third;
+    //Eval3 third;
     Eval4 fourth;
-    Eval *e [4];
-    string p[4] = {"Eval 1", "Eval 2", "Eval 3", "Eval 4"};
+    Eval *e [3];
+    string p[3] = {"Eval 1", "Eval 2", "Eval 4"};
     int winCount[4] = {0 , 0, 0, 0}, winner = 0;
     e[0] = &first;
     e[1] = &second; 
-    e[2] = &third;
-    e[3] = &fourth;
+    //e[2] = &third;
+    e[2] = &fourth;
     cout << "begin testing" << endl;
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 3; i++) {
         for (int u = 0; u < 3; u++) {
             cout << "X is " << p[i] << " and O is " << p[u] << endl;
             winner = engine.playRound(e[i], e[u]);
@@ -42,12 +42,12 @@ int main() {
                 winCount[u]++;
             }
             else cout << "tie game" << endl;
+            cout << endl;
         }
     }
-    for (int j = 0; j < 4; j++) {
+    for (int j = 0; j < 3; j++) {
         cout << endl;
-        cout << p[j] << " has won a total of " << winCount[j] << " times!"
+        cout << p[j] << " has won a total of " << winCount[j] << " times!" << endl;
     }
-    delete[] e;
     return 0;
 }
