@@ -64,7 +64,109 @@ int Eval2::getNum(std::string board[], std::string p) { //eval 2 (chris)
 
 };
 
-// int Eval3::getNum(string board[], string p) {} //kuda's eval
+int Eval3::getNum(string board[], string p) { //eval 3 (kuda)
+  int scores[10] = {8, 3, 4, 1, 5,
+                    9, 6, 7, 2}; // Stores the values for the magic squares
+  int indexCounterP = 0;
+  int indexCounterOpp = 0;
+  int indexCounterBlank = 0;
+  int indexCounterFW = 0;
+  int indexP[5];
+  int indexOpp[5];
+  int futureWin[30];
+  int indexBlank[10] = {12, 12, 12, 12, 12, 12, 12, 12, 12, 12};
+  int potWin;
+  int indexCounter = 0;
+  string oppSign;
+
+  if(p == "X"){
+    oppSign = "O";
+  }
+  else{
+    oppSign = "X";
+  }
+
+  // Populate index arrays for each state a square can be in
+  for (int i = 0; i < 10; i++) {
+    if (board[i] == p) {
+      indexP[indexCounterP] = i;
+      indexCounterP++;
+    } else if (board[i] == oppSign) {
+      indexOpp[indexCounterOpp] = i;
+      indexCounterOpp++;
+    } else {
+      indexBlank[indexCounterBlank] = i;
+      indexCounterBlank++;
+    }
+  }
+
+  // check for winner
+  for (int i = 0; i < indexCounterP; i++) {
+    for (int j = i + 1; j < indexCounterP; j++) {
+      potWin = 15 - (scores[indexP[i]] + scores[indexP[j]]);
+      for (int z = 0; z < indexCounterBlank; z++) {
+        if (potWin == scores[indexBlank[z]]) {
+          return 10;
+        }
+      }
+    }
+  }
+
+  // recursive call
+  for (int i = 0; i < indexCounterOpp; i++) {
+    for (int j = i + 1; j < indexCounterOpp; j++) {
+      potWin = 15 - (scores[indexOpp[i]] + scores[indexOpp[j]]);
+      for (int z = 0; z < indexCounterBlank; z++) {
+        if (potWin == scores[indexBlank[z]]) {
+               return 10;
+        }
+      }
+    }
+  }
+
+  // Find index that has highest potWin
+  for (int i = 0; i < indexCounterP; i++) {
+    potWin = 15 - (scores[indexP[i]]);
+    for (int j = 0; j < indexCounterBlank; j++) {
+      for (int z = j + 1; z < indexCounterBlank; z++) {
+        if (potWin == scores[indexBlank[j]] + scores[indexBlank[z]]) {
+          futureWin[indexCounterFW] = indexBlank[j];
+          futureWin[indexCounterFW + 1] = indexBlank[z];
+          indexCounterFW = indexCounterFW + 2;
+        }
+      }
+    }
+  }
+
+  int max_count = 0;
+  for (int i = 0; i < indexCounterFW; i++) {
+    int count = 1;
+    for (int j = i + 1; j < indexCounterFW; j++)
+      if (futureWin[i] == futureWin[j])
+        count++;
+    if (count > max_count)
+      max_count = count;
+  }
+
+  for (int i = 0; i < indexCounterFW; i++) {
+    int count = 1;
+    for (int j = i + 1; j < indexCounterFW; j++)
+      if (futureWin[i] == futureWin[j])
+        count++;
+    if (count == max_count) {
+        return count;
+    }
+  }
+
+  if (indexCounterBlank == 10 || indexCounterBlank == 9) {
+    for (int i = 1; i < indexCounterBlank; i++) {
+      if (indexBlank[i] == 0 || indexBlank[i] == 2 || indexBlank[i] == 6 ||
+          indexBlank[i] == 8) {
+            return 1;
+      }
+    }
+  }
+}
 
 int Eval4::getNum(string board[], string p) { //Twee's Eval
     int b[9], value = 0;
