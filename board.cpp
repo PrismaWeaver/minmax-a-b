@@ -23,16 +23,6 @@ class Board { //used to keep track of the game state
             return changes;
         }
 
-        array count(string p) { //scans board for specified string p, and fills the int array with their indexes 
-            int count = 0;
-            array index;
-            TTT temp = magic();
-            for (int i = 0; i < 9; i++) {
-                if (temp.board[i] == p) index.index[count++] = i;
-            }
-            return index;
-        }
-
         bool win(string p) {
             bool success = false;
             for (int i = 0; i < 3; i++) {
@@ -87,7 +77,7 @@ class Board { //used to keep track of the game state
             move = 0;
         }
 
-        TTT magic() { //changes arangement of board-state indexes to align with their magic square values
+        /*TTT magic() { //changes arangement of board-state indexes to align with their magic square values
             // {0, 1, 2, 3, 4, 5, 6, 7, 8} becomes {1, 6, 5, 8, 4, 0, 3, 2, 7}
             TTT temp;
             temp.board[0] = game[move][5];
@@ -100,13 +90,13 @@ class Board { //used to keep track of the game state
             temp.board[7] = game[move][8];
             temp.board[8] = game[move][3];
             return temp;
-        }
+        }*/
 
-        bool goal() { //evaluates the board based on magic square to determine if there is a winner: 0 no winner, 1 X, 2 O
-            bool goal = false;
+        int goal() { //evaluates the board based on magic square to determine if there is a winner: 0 no winner, 1 X, 2 O
+            int goal = 0;
             if (move >= 5) { //literally cannot win until move == 5, aka player 1 has at least 3 moves
-                if (win("X")) goal = true;
-                if (win("O")) goal = true;
+                if (win("X")) goal = 1;
+                if (win("O")) goal = 2;
             }
             return goal;
         }
@@ -116,6 +106,7 @@ class Board { //used to keep track of the game state
                 cout << UNDERLINE << " " << game[i][0] << " | " << game[i][1] << " | " << game[i][2] << " " << CLOSEUNDERLINE << endl;
                 cout << UNDERLINE << " " << game[i][3] << " | " << game[i][4] << " | " << game[i][5] << " " << CLOSEUNDERLINE << endl;
                 cout << " " << game[i][6] << " | " << game[i][7] << " | " << game[i][8] << endl;
+                cout << endl;
             }
         }
 };
