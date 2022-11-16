@@ -17,30 +17,37 @@
 }*/
 
 int main() {
-    cout << "begin testing" << endl;
     twoplayer engine;
     Eval1 first;
     Eval2 second;
+    Eval3 third;
     Eval4 fourth;
-    Eval *e1 = &first, *e2 = &second, *e4 = &fourth;
-    cout << "Eval1 vs Eval1" << endl;
-    engine.playRound(e1, e1);
-    cout << "Eval2 vs Eval2" << endl;
-    engine.playRound(e2, e2);
-    cout << "Eval4 vs Eval4" << endl;
-    engine.playRound(e4, e4);
-    cout << "Eval1 vs Eval2" << endl;
-    engine.playRound(e1, e2);
-    cout << "Eval2 vs Eval1" << endl;
-    engine.playRound(e2, e1);
-    cout << "Eval1 vs Eval4" << endl;
-    engine.playRound(e1, e4);
-    cout << "Eval4 vs Eval1" << endl;
-    engine.playRound(e4, e1);
-    cout << "Eval2 vs Eval4" << endl;
-    engine.playRound(e2, e4);
-    cout << "Eval4 vs Eval2" << endl;
-    engine.playRound(e4, e2);
-    delete e1, e2, e4;
+    Eval *e [4];
+    string p[4] = {"Eval 1", "Eval 2", "Eval 3", "Eval 4"};
+    int winCount[4] = {0 , 0, 0, 0}, winner = 0;
+    e[0] = &first;
+    e[1] = &second; 
+    e[2] = &third;
+    e[3] = &fourth;
+    cout << "begin testing" << endl;
+    for (int i = 0; i < 4; i++) {
+        for (int u = 0; u < 3; u++) {
+            cout << "X is " << p[i] << " and O is " << p[u] << endl;
+            winner = engine.playRound(e[i], e[u]);
+            if (winner == 1) {
+                cout << "X wins" << endl;
+                winCount[i]++;
+            } else if (winner == 2) {
+                cout << "O wins" << endl;
+                winCount[u]++;
+            }
+            else cout << "tie game" << endl;
+        }
+    }
+    for (int j = 0; j < 4; j++) {
+        cout << endl;
+        cout << p[j] << " has won a total of " << winCount[j] << " times!"
+    }
+    delete[] e;
     return 0;
 }
