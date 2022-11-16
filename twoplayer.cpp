@@ -41,10 +41,9 @@ class twoplayer {
                 compare = minmax_a_b(temp.board, d + 1, o, e, -ut, -pt); //RECURSION CALL
                 if (compare.value > pt) { //this is where im not entirely sure if im doing it right
                     pt = compare.value;
-                    thing.value = -compare.value;  
+                    thing.value = compare.value;  
                     thing.path = temp;
                 }
-                if (pt > ut) return thing;
             }
             return thing;
         }
@@ -53,8 +52,11 @@ class twoplayer {
             int count = -1;
             TTT temp;
             for (int i = 0; i < 9; i++) { //i itterates through board
-                if (board[i] == " ") count++; //keeps track of empty strings reached
-                if (count == u) temp.board[i] = p; //only changes the uth empty slot each pass
+                if (board[i] == " ") {
+                    count++; //keeps track of empty strings reached
+                    if (count == u) temp.board[i] = p; //only changes the uth empty slot each pass
+                    else temp.board[i] = " ";
+                }
                 else temp.board[i] = board[i]; //fills the rest of the board as normal
             }
             return temp;
@@ -79,7 +81,7 @@ class twoplayer {
             VP move;
             TTT temp;
             temp = game.getBoard();
-            move = minmax_a_b(temp.board, 0, p, e, -100, 100);
+            move = minmax_a_b(temp.board, 0, p, e, -500, 500);
             if (!game.add(move.path.board)) cout << "Error: Invalid move detected" << endl;
             return game.goal();
         }
@@ -88,10 +90,12 @@ class twoplayer {
         void playRound(Eval * max, Eval * min) {
             bool win = false;
             int count = 0;
-            while (win == false) {
+            while (!win) {
                 win = turn("X", max);
-                if (win || count >= 9) break;
+                count++;
+                if (win || count >= 9) break; //ends the game if goal reached, or if game ties
                 win = turn("O", min);
+                count++;
             }
             game.print();
             game.reset();
