@@ -5,7 +5,7 @@
 using std::cout;
 using std::endl;
 
- int Eval::value(string board[], string p) {
+ int Eval::value(std::string board[], std::string p) {
     int max = getNum(board, p), min;
     if (p == "X") min = getNum(board, "O");
     else min = getNum(board, "X");
@@ -13,7 +13,7 @@ using std::endl;
  }
 
 //calculate # of open lines that player has their mark in, subtract opponent win lines from player win lines, return this as the value
-int Eval1::getNum(string board[], string p) {
+int Eval1::getNum(string board[], string p) { //there is probably a better way of doing this honestly
     int value = 0;
     for (int i = 0; i < 3; i++) {
         //rows
@@ -27,9 +27,42 @@ int Eval1::getNum(string board[], string p) {
     return value;
 }
 
-// class Eval2 : public Eval { //eval 2 (chris)
+int Eval2::getNum(std::string board[], std::string p) { //eval 2 (chris)
+    int p1, p2, p3;
+    p1 = p2 = p3 = 0;
 
-// };
+    //rows
+    for(int i = 0; i < 3; i++){
+        string line = (board[i*3], board[i*3 + 1], board[i*3 + 2]);
+        if(line == (p, p, p)) p3++;
+        if(line == (p, p, " ") || line == (p, " ", p) || line == (" ", p, p)) p2++;
+        else if (line == (p, " ", " ") || line == (" "," ", p) || line == (" ", p, " ")) p1++;
+    }
+
+    //columns
+    for(int i = 0; i < 3; i++){
+        string line = (board[i], board[i + 3], board[i + 6]);
+        if(line == (p, p, p)) p3++;
+        if(line == (p, p, " ") || line == (p, " ", p) || line == (" ", p, p)) p2++;
+        else if (line == (p, " ", " ") || line == (" "," ", p) || line == (" ", p, " ")) p1++;
+    }
+
+    //diagnol
+    string diagnol1 = (board[0], board[4], board[8]);
+    string diagnol2 = (board[2], board[4], board[6]);
+    
+    if(diagnol1 == (p, p, p)) p3++;
+    if(diagnol1 == (p, p, " ") || diagnol1 == (p, " ", p) || diagnol1 == (" ", p, p)) p2++;
+    else if (diagnol1 == (p, " ", " ") || diagnol1 == (" "," ", p) || diagnol1 == (" ", p, " ")) p1++;
+
+    if(diagnol2 == (p, p, p)) p3++;
+    if(diagnol2 == (p, p, " ") || diagnol2 == (p, " ", p) || diagnol2 == (" ", p, p)) p2++;
+    else if (diagnol2 == (p, " ", " ") || diagnol2 == (" "," ", p) || diagnol2 == (" ", p, " ")) p1++;
+
+    
+    return (50*p3+5*p2+p1);
+
+};
 
 int Eval3::getNum(string board[], string p) { //eval 3 (kuda)
   int scores[10] = {8, 3, 4, 1, 5,
@@ -136,29 +169,18 @@ int Eval3::getNum(string board[], string p) { //eval 3 (kuda)
 }
 
 int Eval4::getNum(string board[], string p) { //Twee's Eval
-    int p1, p2, p3;
-    p1 = p2 = p3 = 0;
-    for (int i = 0; i < 3; i++) {
-        if (board[i * 3] == p || board[(i * 3) + 1] == p || board[(i * 3) + 2] == p) {
-            if (board[i * 3] == p && board[(i * 3) + 1] == p && board[(i * 3) + 2] == p) p3++;
-            else if ((board[i * 3] == p && board[(i * 3) + 1] == p && board[(i * 3) + 2] == " ") || (board[i * 3] == p && board[(i * 3) + 1] == " " && board[(i * 3) + 2] == p) || (board[i * 3] == " " && board[(i * 3) + 1] == p && board[(i * 3) + 2] == p)) p2++;
-            else if ((board[i * 3] == p && board[(i * 3) + 1] == " " && board[(i * 3) + 2] == " ") || (board[i * 3] == " " && board[(i * 3) + 1] == p && board[(i * 3) + 2] == " ") || (board[i * 3] == " " && board[(i * 3) + 1] == " " && board[(i * 3) + 2] == p)) p1++;
-        }
-        if (board[i] == p || board[i + 3] == p || board[i + 6] == p) {
-            if (board[i] == p && board[i + 3] == p && board[i + 6] == p) p3++;
-            else if ((board[i] == p && board[i + 3] == p && board[i + 6] == " ") || (board[i] == p && board[i + 3] == " " && board[i + 6] == p) || (board[i] == " " && board[i + 3] == p && board[i + 6] == p)) p2++;
-            else if ((board[i] == p && board[i + 3] == " " && board[i + 6] == " ") || (board[i] == " " && board[i + 3] == p && board[i + 6] == " ") || (board[i] == " " && board[i + 3] == " " && board[i + 6] == p)) p1++;
-        }
+    int b[9], value = 0;
+    for (int i = 0; i < 9; i++) {
+        if (board[i] == p) b[i] = 4; //square has player's piece
+        else if (board[i] == " ") b[i] = 1; //square is blank
+        else b[i] = 0; //square has opponent's piece
     }
-    if (board[0] == p || board[4] == p || board[8] == p) {
-        if (board[0] == p && board[4] == p && board[8] == p) p3++;
-        else if ((board[0] == p && board[4] == p && board[8] == " ") || (board[0] == p && board[4] == " " && board[8] == p) || (board[0] == " " && board[4] == p && board[8] == p)) p2++;
-        else if ((board[0] == p && board[4] == " " && board[8] == " ") || (board[0] == " " && board[4] == p && board[8] == " ") || (board[0] == p && board[4] == " " && board[8] == " ")) p1++;
+    //multiplies the lines such that lines that have the opponent's piece result in 0 and lines with player piece are valued 4, 16, 64 for amount in line
+    for (int u = 0; u < 3; u++) {
+        value += b[3 * u] * b[(3 * u) + 1] * b[(3 * u) + 2];
+        value += b[u] * b[u + 3] * b[u + 6];
     }
-    if (board[2] == p || board[4] == p || board[6] == p) {
-        if (board[2] == p && board[4] == p && board[6] == p) p3++;
-        else if ((board[2] == p && board[4] == p && board[6] == " ") || (board[2] == p && board[4] == " " && board[6] == p) || (board[2] == " " && board[4] == p && board[6] == p)) p2++;
-        else if ((board[2] == p && board[4] == " " && board[6] == " ") || (board[2] == " " && board[4] == p && board[6] == " ") || (board[2] == p && board[4] == " " && board[6] == " ")) p1++;
-    }
-    return 50 * p3 + 5 * p2 + p1;
+    value += b[0] * b[4] * b[8];
+    value += b[2] * b[4] * b[6];
+    return value;
 }
