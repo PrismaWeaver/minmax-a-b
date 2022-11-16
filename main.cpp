@@ -20,15 +20,15 @@ int main() {
     twoplayer engine;
     Eval1 first;
     Eval2 second;
-    //Eval3 third;
-    Eval4 fourth;
+    Eval3 third;
+    //Eval4 fourth;
     Eval *e [3];
-    string p[3] = {"Eval 1", "Eval 2", "Eval 4"};
+    string p[3] = {"Eval 1", "Eval 2", "Eval 3"};
     int winCount[4] = {0 , 0, 0, 0}, winner = 0;
     e[0] = &first;
     e[1] = &second; 
-    //e[2] = &third;
-    e[2] = &fourth;
+    e[2] = &third;
+    //e[2] = &fourth;
     cout << "begin testing" << endl;
     for (int i = 0; i < 3; i++) {
         for (int u = 0; u < 3; u++) {
