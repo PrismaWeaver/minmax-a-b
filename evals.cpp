@@ -154,7 +154,7 @@ int Eval3::getNum(string board[], string p) { //eval 3 (kuda)
       if (futureWin[i] == futureWin[j])
         count++;
     if (count == max_count) {
-        return count;
+        return count + 1;
     }
   }
 
@@ -162,10 +162,11 @@ int Eval3::getNum(string board[], string p) { //eval 3 (kuda)
     for (int i = 1; i < indexCounterBlank; i++) {
       if (indexBlank[i] == 0 || indexBlank[i] == 2 || indexBlank[i] == 6 ||
           indexBlank[i] == 8) {
-            return 1;
+            return 2;
       }
     }
   }
+  return 1;
 }
 
 int Eval4::getNum(string board[], string p) { //Twee's Eval
