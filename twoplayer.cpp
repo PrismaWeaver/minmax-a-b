@@ -94,6 +94,7 @@ class twoplayer {
                 count++;
                 if (win != 0 || count >= 9) break; //ends the game if goal reached, or if game ties
                 win = turn("O", min);
+                if(win > 0) win = 2;
                 count++;
             }
             game.print();
