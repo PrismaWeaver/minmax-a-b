@@ -124,14 +124,12 @@ class twoplayer {
                     win = turn(p, max);
                     end = duration_cast<microseconds>(high_resolution_clock::now().time_since_epoch()).count();
                     X_duration += end - start;
-                    cout << X_duration << endl;
                 }
                 else {
                     start = duration_cast<microseconds>(high_resolution_clock::now().time_since_epoch()).count();
                     win = turn(p, min);
                     end = duration_cast<microseconds>(high_resolution_clock::now().time_since_epoch()).count();
                     O_duration += end - start;
-                    cout << O_duration << endl;
                 }
                 count++;                
             }
