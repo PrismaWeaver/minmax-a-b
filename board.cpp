@@ -1,6 +1,5 @@
 //NOTE: empty board slots are TWO spaces "  ", this is just for better formating when printing
 #include "vp.h"
-#include "array.h"
 #include <iostream>
 #define UNDERLINE "\033[4m"
 #define CLOSEUNDERLINE "\033[0m"
