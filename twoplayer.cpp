@@ -39,11 +39,12 @@ class twoplayer {
             for (int u = 0; u < ref; u++) {
                 temp = children(board, p, u); //returns a TTT which holds a board
                 compare = minmax_a_b(temp.board, d + 1, o, e, -ut, -pt); //RECURSION CALL
-                if (compare.value > pt) { //this is where im not entirely sure if im doing it right
-                    pt = compare.value;
-                    thing.value = compare.value;  
+                if (-compare.value > pt) { //this is where im not entirely sure if im doing it right
+                    pt = -compare.value;
+                    thing.value = pt;
                     thing.path = temp;
                 }
+                if (pt >= ut) return thing;
             }
             return thing;
         }
