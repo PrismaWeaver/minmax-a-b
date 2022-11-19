@@ -5,6 +5,8 @@
 #include "evals.h"
 #include <chrono>
 
+using namespace std::chrono;
+
 class twoplayer {
     private:
         Board game; //board object
@@ -98,8 +100,8 @@ class twoplayer {
         }
 
         void metaCount() {
-            cout << "Player 1 (X) used " << nodeCountX << " nodes total with an execution total of " << X_duration << " milliseconds" << endl;
-            cout << "Player 2 (O) used " << nodeCountO << " nodes total with an execution total of " << O_duration << " milliseconds" << endl;
+            cout << "Player 1 (X) used " << nodeCountX << " nodes total with an execution total of " << X_duration << " microseconds" << endl;
+            cout << "Player 2 (O) used " << nodeCountO << " nodes total with an execution total of " << O_duration << " microseconds" << endl;
         }
 
         string swap(string p) {
@@ -118,16 +120,18 @@ class twoplayer {
             while (!win && count < 9) {
                 p = swap(p);
                 if (p == "X") {
-                    start = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count();
+                    start = duration_cast<microseconds>(high_resolution_clock::now().time_since_epoch()).count();
                     win = turn(p, max);
-                    end = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count();
+                    end = duration_cast<microseconds>(high_resolution_clock::now().time_since_epoch()).count();
                     X_duration += end - start;
+                    cout << X_duration << endl;
                 }
                 else {
-                    start = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count();
+                    start = duration_cast<microseconds>(high_resolution_clock::now().time_since_epoch()).count();
                     win = turn(p, min);
-                    end = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count();
+                    end = duration_cast<microseconds>(high_resolution_clock::now().time_since_epoch()).count();
                     O_duration += end - start;
+                    cout << O_duration << endl;
                 }
                 count++;                
             }
