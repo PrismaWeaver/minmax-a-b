@@ -3,10 +3,18 @@
 
 #include "board.cpp"
 #include "evals.h"
+#include <chrono>
+
+using namespace std::chrono;
 
 class twoplayer {
     private:
         Board game; //board object
+        int nodeCounter;
+        int nodeCountX;
+        int nodeCountO;
+        long long X_duration;
+        long long O_duration;
 
         //MINMAX_A_B
         //THE HEART OF THIS ENTIRE PROGRAM
@@ -23,6 +31,7 @@ class twoplayer {
         //usethresh(UT):    starts with an initialized value thats super high, gets changed at depth 0 and 1 based on the returned PT
 
         VP minmax_a_b(string board[], int d, string p, Eval * e, int pt, int ut) {
+            nodeCounter++;
             VP thing, compare;
             //begin step 1, determine if depth is enough
             if (d >= 2) return end(board, e, p);
@@ -39,11 +48,12 @@ class twoplayer {
             for (int u = 0; u < ref; u++) {
                 temp = children(board, p, u); //returns a TTT which holds a board
                 compare = minmax_a_b(temp.board, d + 1, o, e, -ut, -pt); //RECURSION CALL
-                if (compare.value > pt) { //this is where im not entirely sure if im doing it right
-                    pt = compare.value;
-                    thing.value = compare.value;  
+                if (-compare.value > pt) { //this is where im not entirely sure if im doing it right
+                    pt = -compare.value;
+                    thing.value = pt;
                     thing.path = temp;
                 }
+                if (pt >= ut) return thing;
             }
             return thing;
         }
@@ -81,23 +91,56 @@ class twoplayer {
             VP move;
             TTT temp;
             temp = game.getBoard();
+            nodeCounter = 0;
             move = minmax_a_b(temp.board, 0, p, e, -500, 500);
+            if (p == "X") nodeCountX += nodeCounter;
+            else nodeCountO += nodeCounter;
             if (!game.add(move.path.board)) cout << "Error: Invalid move detected" << endl;
             return game.goal();
         }
 
+        void metaCount() {
+            cout << "Player 1 (X) used " << nodeCountX << " nodes total with an execution total of " << X_duration << " microseconds" << endl;
+            cout << "Player 2 (O) used " << nodeCountO << " nodes total with an execution total of " << O_duration << " microseconds" << endl;
+        }
+
+        string swap(string p) {
+            if (p == "X") p = "O";
+            else p = "X";
+            return p;
+        }
+
     public:
         int playRound(Eval * max, Eval * min) {
-            int win = 0, count = 0;
-            while (win == 0) {
-                win = turn("X", max);
-                count++;
-                if (win != 0 || count >= 9) break; //ends the game if goal reached, or if game ties
-                win = turn("O", min);
-                count++;
+            X_duration = O_duration = nodeCounter = nodeCountO = nodeCountX = 0;
+            int count = 0, winner = 0;
+            long long start, end;
+            bool win = false;
+            string p = "O";
+            while (!win && count < 9) {
+                p = swap(p);
+                if (p == "X") {
+                    start = duration_cast<microseconds>(high_resolution_clock::now().time_since_epoch()).count();
+                    win = turn(p, max);
+                    end = duration_cast<microseconds>(high_resolution_clock::now().time_since_epoch()).count();
+                    X_duration += end - start;
+                    cout << X_duration << endl;
+                }
+                else {
+                    start = duration_cast<microseconds>(high_resolution_clock::now().time_since_epoch()).count();
+                    win = turn(p, min);
+                    end = duration_cast<microseconds>(high_resolution_clock::now().time_since_epoch()).count();
+                    O_duration += end - start;
+                    cout << O_duration << endl;
+                }
+                count++;                
             }
+            if (count >= 9) winner = 0;
+            else if (p == "X") winner = 1;
+            else winner = 2;
             game.print();
+            metaCount();
             game.reset();
-            return win;
+            return winner;
         }
 };
