@@ -3,13 +3,16 @@
 
 #include "board.cpp"
 #include "evals.h"
+#include <chrono>
 
 class twoplayer {
     private:
         Board game; //board object
-        int nodeCounter = 0;
-        int nodeCountX = 0;
-        int nodeCountO = 0;
+        int nodeCounter;
+        int nodeCountX;
+        int nodeCountO;
+        long long X_duration;
+        long long O_duration;
 
         //MINMAX_A_B
         //THE HEART OF THIS ENTIRE PROGRAM
@@ -94,26 +97,46 @@ class twoplayer {
             return game.goal();
         }
 
-        void nodeCount() {
-            cout << "Player 1 (X) used " << nodeCountX << " nodes total" << endl;
-            cout << "Player 2 (O) used " << nodeCountO << " nodes total" << endl;
-            nodeCounter = nodeCountO = nodeCountX = 0;
+        void metaCount() {
+            cout << "Player 1 (X) used " << nodeCountX << " nodes total with an execution total of " << X_duration << " milliseconds" << endl;
+            cout << "Player 2 (O) used " << nodeCountO << " nodes total with an execution total of " << O_duration << " milliseconds" << endl;
+        }
+
+        string swap(string p) {
+            if (p == "X") p = "O";
+            else p = "X";
+            return p;
         }
 
     public:
         int playRound(Eval * max, Eval * min) {
-            int win = 0, count = 0;
-            while (win == 0) {
-                win = turn("X", max);
-                count++;
-                if (win != 0 || count >= 9) break; //ends the game if goal reached, or if game ties
-                win = turn("O", min);
-                if(win > 0) win = 2;
-                count++;
+            X_duration = O_duration = nodeCounter = nodeCountO = nodeCountX = 0;
+            int count = 0, winner = 0;
+            long long start, end;
+            bool win = false;
+            string p = "O";
+            while (!win && count < 9) {
+                p = swap(p);
+                if (p == "X") {
+                    start = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count();
+                    win = turn(p, max);
+                    end = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count();
+                    X_duration += end - start;
+                }
+                else {
+                    start = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count();
+                    win = turn(p, min);
+                    end = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count();
+                    O_duration += end - start;
+                }
+                count++;                
             }
+            if (count >= 9) winner = 0;
+            else if (p == "X") winner = 1;
+            else winner = 2;
             game.print();
-            nodeCount();
+            metaCount();
             game.reset();
-            return win;
+            return winner;
         }
 };
