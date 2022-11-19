@@ -7,6 +7,9 @@
 class twoplayer {
     private:
         Board game; //board object
+        int nodeCounter = 0;
+        int nodeCountX = 0;
+        int nodeCountO = 0;
 
         //MINMAX_A_B
         //THE HEART OF THIS ENTIRE PROGRAM
@@ -23,6 +26,7 @@ class twoplayer {
         //usethresh(UT):    starts with an initialized value thats super high, gets changed at depth 0 and 1 based on the returned PT
 
         VP minmax_a_b(string board[], int d, string p, Eval * e, int pt, int ut) {
+            nodeCounter++;
             VP thing, compare;
             //begin step 1, determine if depth is enough
             if (d >= 2) return end(board, e, p);
@@ -82,9 +86,18 @@ class twoplayer {
             VP move;
             TTT temp;
             temp = game.getBoard();
+            nodeCounter = 0;
             move = minmax_a_b(temp.board, 0, p, e, -500, 500);
+            if (p == "X") nodeCountX += nodeCounter;
+            else nodeCountO += nodeCounter;
             if (!game.add(move.path.board)) cout << "Error: Invalid move detected" << endl;
             return game.goal();
+        }
+
+        void nodeCount() {
+            cout << "Player 1 (X) used " << nodeCountX << " nodes total" << endl;
+            cout << "Player 2 (O) used " << nodeCountO << " nodes total" << endl;
+            nodeCounter = nodeCountO = nodeCountX = 0;
         }
 
     public:
@@ -99,6 +112,7 @@ class twoplayer {
                 count++;
             }
             game.print();
+            nodeCount();
             game.reset();
             return win;
         }
