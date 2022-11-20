@@ -107,19 +107,18 @@ class twoplayer {
     public:
         int playRound(Eval * max, Eval * min) {
             nodeCounter = nodeCountO = nodeCountX = 0;
-            int count = 0, winner = 0;
+            int winner = 0;
             long long start, end;
             bool win = false;
-            string p = "O";
-            while (!win && count < 9) {
+            string p = ""; //doesnt need to be initialized to anything bc swap will set it to X for us
+            while (!win && game.getTurn() < 10) {
                 p = swap(p);
                 if (p == "X") {
                     win = turn(p, max);
                 }
                 else {
                     win = turn(p, min);
-                }
-                count++;                
+                }      
             }
             if (win) {
                 if (p == "X") winner = 1;
