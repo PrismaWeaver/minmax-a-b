@@ -77,7 +77,7 @@ class Board { //used to keep track of the game state
         }
 
         bool goal() { //evaluates the board based on magic square to determine if there is a winner: 0 no winner, 1 X, 2 O
-            int goal = 0;
+            bool goal = false;
             if (move >= 5) { //literally cannot win until move == 5, aka player 1 has at least 3 moves
                 if (win("X")) goal = true;
                 if (win("O")) goal = true;
