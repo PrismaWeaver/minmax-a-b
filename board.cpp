@@ -47,6 +47,8 @@ class Board { //used to keep track of the game state
             reset();
         }
 
+        int getTurn() {return move;}
+
         TTT getBoard() { //used by minmax-a-b to get current board-state by passing an array by reference
             TTT board;
             for (int i = 0; i < 9; i++) {
