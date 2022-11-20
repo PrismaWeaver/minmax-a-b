@@ -80,7 +80,7 @@ class Board { //used to keep track of the game state
             bool goal = false;
             if (move >= 5) { //literally cannot win until move == 5, aka player 1 has at least 3 moves
                 if (win("X")) goal = true;
-                if (win("O")) goal = true;
+                else if (win("O")) goal = true;
             }
             return goal;
         }
