@@ -107,11 +107,11 @@ class twoplayer {
     public:
         int playRound(Eval * max, Eval * min) {
             X_duration = O_duration = nodeCounter = nodeCountO = nodeCountX = 0;
-            int count = 0, winner = 0;
+            int winner = 0;
             long long start, end;
             bool win = false;
-            string p = "O";
-            while (!win && count < 9) {
+            string p = ""; //doesnt need to be initialized to anything bc swap will set it to X for us
+            while (!win && game.getTurn() < 10) {
                 p = swap(p);
                 if (p == "X") {
                     start = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count();
@@ -124,8 +124,7 @@ class twoplayer {
                     win = turn(p, min);
                     end = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count();
                     O_duration += end - start;
-                }
-                count++;                
+                }              
             }
             if (win) {
                 if (p == "X") winner = 1;
