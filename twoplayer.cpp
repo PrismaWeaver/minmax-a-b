@@ -127,9 +127,10 @@ class twoplayer {
                 }
                 count++;                
             }
-            if (count >= 9) winner = 0;
-            else if (p == "X") winner = 1;
-            else winner = 2;
+            if (win) {
+                if (p == "X") winner = 1;
+                else winner = 2;
+            }
             game.print();
             metaCount();
             game.reset();
