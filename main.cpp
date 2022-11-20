@@ -9,7 +9,7 @@ int main() {
     Eval4 fourth;
     Eval *e [4];
     string p[4] = {"Eval 1", "Eval 2", "Eval 3", "Eval 4"};
-    int winCount[4] = {0 , 0, 0, 0}, winner = 0;
+    int winCount[4] = {0, 0, 0, 0}, winner = 0;
     e[0] = &first;
     e[1] = &second; 
     e[2] = &third;
