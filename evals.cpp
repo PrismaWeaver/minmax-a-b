@@ -66,7 +66,9 @@ int Eval2::getNum(std::string board[], std::string p) { //eval 2 (chris)
 
 int Eval3::getNum(string board[], string p) { //eval 3 (kuda)
   int scores[9] = {8, 3, 4, 1, 5, 9, 6, 7, 2}; // Stores the values for the magic squares
-  int indexCounterP, indexCounterBlank, indexCounterFW = 0; // Stores the number of indexes the player has for indexP, indexBlank and futureWin arrays 
+  int indexCounterP = 0; // Stores the number of indexes the player has for indexP array
+  int indexCounterBlank = 0; // Stores the number of indexes the player has for indexBlank array
+  int indexCounterFW = 0; // Stores the number of indexes the player has for futureWin array
   int indexP[5]; // Stores indexes of player
   int futureWin[30]; //Stores possible indexes of future win spaces
   int indexBlank[9]; //Stores blank indexes
