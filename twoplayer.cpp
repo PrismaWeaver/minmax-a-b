@@ -40,9 +40,7 @@ class twoplayer {
             if (ref == 0) return end(board, e, p);
             //begin step 3
             //determine opponent
-            string o;
-            if (p == "X") o = "O";
-            else o = "X";
+            string o = swap(p);
             TTT temp; //for transfering the board states
             //its easier to do the calculations for each individual child then move on to the next
             for (int u = 0; u < ref; u++) {
@@ -88,11 +86,9 @@ class twoplayer {
         }
 
         bool turn(string p, Eval * e) { //completes one player turn
-            VP move;
-            TTT temp;
-            temp = game.getBoard();
             nodeCounter = 0;
-            move = minmax_a_b(temp.board, 0, p, e, -500, 500);
+            TTT temp = game.getBoard();
+            VP move = minmax_a_b(temp.board, 0, p, e, -500, 500);
             if (p == "X") nodeCountX += nodeCounter;
             else nodeCountO += nodeCounter;
             if (!game.add(move.path.board)) cout << "Error: Invalid move detected" << endl;
@@ -124,20 +120,19 @@ class twoplayer {
                     win = turn(p, max);
                     end = duration_cast<microseconds>(high_resolution_clock::now().time_since_epoch()).count();
                     X_duration += end - start;
-                    cout << X_duration << endl;
                 }
                 else {
                     start = duration_cast<microseconds>(high_resolution_clock::now().time_since_epoch()).count();
                     win = turn(p, min);
                     end = duration_cast<microseconds>(high_resolution_clock::now().time_since_epoch()).count();
                     O_duration += end - start;
-                    cout << O_duration << endl;
                 }
                 count++;                
             }
-            if (count >= 9) winner = 0;
-            else if (p == "X") winner = 1;
-            else winner = 2;
+            if (win) {
+                if (p == "X") winner = 1;
+                else winner = 2;
+            }
             game.print();
             metaCount();
             game.reset();
