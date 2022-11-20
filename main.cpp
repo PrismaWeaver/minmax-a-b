@@ -11,6 +11,7 @@ int main() {
     Eval *e [4];
     string p[4] = {"Eval 1", "Eval 2", "Eval 3", "Eval 4"};
     int winCount[4] = {0, 0, 0, 0}, winner = 0;
+    int tieCount[4] = {0, 0, 0, 0};
     e[0] = &first;
     e[1] = &second; 
     e[2] = &third;
@@ -37,21 +38,25 @@ int main() {
             } else if(i == 3 || u == 3){
                 avgTime[3] += end - start;
             }
-            
-            if (winner == 1) {
+
+           if (winner == 1) {
                 cout << "X wins" << endl;
                 winCount[i]++;
             } else if (winner == 2) {
                 cout << "O wins" << endl;
                 winCount[u]++;
             }
-            else cout << "tie game " << endl;
+            else{
+                cout << "tie game " << endl;
+                tieCount[i]++;
+                tieCount[u]++;
+            } 
             cout << endl;
         }
     }
     for (int j = 0; j < 4; j++) {
         cout << endl;
-        cout << p[j] << " has won a total of " << winCount[j] << " times!" << endl;
+        cout << p[j] << " has won a total of " << winCount[j] << " and tied a total of " << tieCount[j] << " times!" << endl;
         cout << "Minmax-a-b utilizing Eval " << j + 1 << " has an average execution time of " << avgTime[j]/7 << " microseconds." << endl;
     }
     return 0;

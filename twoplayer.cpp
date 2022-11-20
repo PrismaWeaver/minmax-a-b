@@ -4,6 +4,8 @@
 #include "board.cpp"
 #include "evals.h"
 #include <chrono>
+#include <windows.h>
+#include <psapi.h>
 
 using namespace std::chrono;
 
@@ -106,6 +108,8 @@ class twoplayer {
 
     public:
         int playRound(Eval * max, Eval * min) {
+            
+
             nodeCounter = nodeCountO = nodeCountX = 0;
             int count = 0, winner = 0;
             long long start, end;
@@ -127,6 +131,17 @@ class twoplayer {
             }
             game.print();
             metaCount();
+
+            PROCESS_MEMORY_COUNTERS_EX memCounter;
+            BOOL result = GetProcessMemoryInfo(GetCurrentProcess(),
+                                   (PROCESS_MEMORY_COUNTERS*)&memCounter,
+                                   sizeof( memCounter ));
+            SIZE_T virtualMemUsedByMe = memCounter.PrivateUsage;
+            SIZE_T physMemUsedByMe = memCounter.WorkingSetSize;
+            
+            cout << "Total virtual memory used by game " << virtualMemUsedByMe << endl;
+            cout << "Total physical memory used by game " << physMemUsedByMe << endl;
+
             game.reset();
             return winner;
         }
