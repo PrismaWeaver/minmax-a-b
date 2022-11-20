@@ -5,14 +5,14 @@
 #include "evals.h"
 #include <chrono>
 
+using namespace std::chrono;
+
 class twoplayer {
     private:
         Board game; //board object
         int nodeCounter;
         int nodeCountX;
         int nodeCountO;
-        long long X_duration;
-        long long O_duration;
 
         //MINMAX_A_B
         //THE HEART OF THIS ENTIRE PROGRAM
@@ -94,8 +94,8 @@ class twoplayer {
         }
 
         void metaCount() {
-            cout << "Player 1 (X) used " << nodeCountX << " nodes total with an execution total of " << X_duration << " milliseconds" << endl;
-            cout << "Player 2 (O) used " << nodeCountO << " nodes total with an execution total of " << O_duration << " milliseconds" << endl;
+            cout << "Player 1 (X) used " << nodeCountX << " nodes total. " << endl;
+            cout << "Player 2 (O) used " << nodeCountO << " nodes total. " << endl;
         }
 
         string swap(string p) {
@@ -106,7 +106,7 @@ class twoplayer {
 
     public:
         int playRound(Eval * max, Eval * min) {
-            X_duration = O_duration = nodeCounter = nodeCountO = nodeCountX = 0;
+            nodeCounter = nodeCountO = nodeCountX = 0;
             int winner = 0;
             long long start, end;
             bool win = false;
@@ -114,17 +114,11 @@ class twoplayer {
             while (!win && game.getTurn() < 10) {
                 p = swap(p);
                 if (p == "X") {
-                    start = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count();
                     win = turn(p, max);
-                    end = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count();
-                    X_duration += end - start;
                 }
                 else {
-                    start = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count();
                     win = turn(p, min);
-                    end = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count();
-                    O_duration += end - start;
-                }              
+                }      
             }
             if (win) {
                 if (p == "X") winner = 1;
