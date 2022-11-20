@@ -65,55 +65,53 @@ int Eval2::getNum(std::string board[], std::string p) { //eval 2 (chris)
 };
 
 int Eval3::getNum(string board[], string p) { //eval 3 (kuda)
-  int scores[9] = {8, 3, 4, 1, 5,
-                    9, 6, 7, 2}; // Stores the values for the magic squares
-  int indexCounterP = 0; // Stores the number of indexes the player has 
-  int indexCounterBlank = 0; // Stores the number of blank indexes
-  int indexCounterFW = 0; // Stores the size of the futureWin index
+  int scores[9] = {8, 3, 4, 1, 5, 9, 6, 7, 2}; // Stores the values for the magic squares
+  int indexCounterP = 0; // Stores the number of indexes the player has for indexP array
+  int indexCounterBlank = 0; // Stores the number of indexes the player has for indexBlank array
+  int indexCounterFW = 0; // Stores the number of indexes the player has for futureWin array
   int indexP[5]; // Stores indexes of player
   int futureWin[30]; //Stores possible indexes of future win spaces
   int indexBlank[9]; //Stores blank indexes
   int potWin; // Used to calculate potential win states after using magic squares 
   int maxCounter = 1;
-  int value = 0;
 
   // Populates the indexP, indexOpp and indexBlank arrays which will be used for calculating magic squares later
   for (int i = 0; i < 9; i++) {
     if (board[i] == p) { 
       indexP[indexCounterP++] = i; // assigns the board index to an index array named indexP if the index is populated with your symbol
     } else if (board[i] == " ") {
-      indexBlank[indexCounterBlank++] = i; //assigns the board index to an index array named indexBlank if the index is populated with the oppenents symbol
+      indexBlank[indexCounterBlank++] = i; //assigns the board index to an index array named indexBlank if the index is populated blank
   }
   }
 
-    // Checks if in current winning state
+    // Checks if in current winning state and assings 100 if value is winning state
   for (int i = 0; i < indexCounterP; i++) { //Loops through all indexP values in combos of 3
     for (int j = i + 1; j < indexCounterP; j++) {
       for (int z = j + 1; z < indexCounterP; z++) {
         if (scores[indexP[i]] + scores[indexP[j]] + scores[indexP[z]] == 15) { // If one of them adds up to 15 we have a winner
-          value += 100;
+          return 100;
         }
       }
     }
   }
-  
-  // Checks if there is a winner on the next move and assigns it the value of 10.
-  for (int i = 0; i < indexCounterP; i++) { // first for loop is so we run through all values that are assigned to indexP.
-    for (int j = i + 1; j < indexCounterP; j++) { // second for loop is so we can compare all other values in p to the value we retrieved in the first for loop.
+
+  // Checks if there is a winner on the next move and assigns it the value of 50.
+  for (int i = 0; i < indexCounterP; i++) { // first for runs through all values that are assigned to indexP.
+    for (int j = i + 1; j < indexCounterP; j++) { 
       potWin = 15 - (scores[indexP[i]] + scores[indexP[j]]); // potWin is calculated by takeing the first p value and comparing its magic square value to another value in p. We then sutract that value from 15. This value is the magic square score for the final index.
-      for (int z = 0; z < indexCounterBlank; z++) { // third for loop then runs through all blank indexes and searches for if the potWin magic square value is located here.
-        if (potWin == scores[indexBlank[z]]) { // if found return 10
-          value += 50; 
+      for (int z = 0; z < indexCounterBlank; z++) { // runs through all blank indexes and searches for if the potWin magic square value is located here.
+        if (potWin == scores[indexBlank[z]]) { // if found return 50
+          return 50; 
         }
       }
     }
   }
 
   // Runs through the indexP array comparing the magic squares values to all possible combinations of 2 indexBlank values.
-  for (int i = 0; i < indexCounterP; i++) { // runs through our indexP values
-    potWin = 15 - (scores[indexP[i]]); // calculates the remaining magic squares value needed to win after we subtract our p indexes magic sqaures value from 15.
-    for (int j = 0; j < indexCounterBlank; j++) { // runs through our indexBlank values
-      for (int z = j + 1; z < indexCounterBlank; z++) { // runs through the remaining indexBlank values (So we can compare them to the one called by the first loop)
+  for (int i = 0; i < indexCounterP; i++) { 
+    potWin = 15 - (scores[indexP[i]]); // calculates the remaining magic squares value needed to win after we subtract our p index's magic sqaures value from 15.
+    for (int j = 0; j < indexCounterBlank; j++) { 
+      for (int z = j + 1; z < indexCounterBlank; z++) { 
         if (potWin == scores[indexBlank[j]] + scores[indexBlank[z]]) { // if there is a potential winning combination
           futureWin[indexCounterFW] = indexBlank[j]; // adds the 2 indexes to futureWin array
           futureWin[indexCounterFW + 1] = indexBlank[z];
@@ -126,10 +124,10 @@ int Eval3::getNum(string board[], string p) { //eval 3 (kuda)
  // Finds the highest number of occurrences of a index
   int max_count = 0; // initializes counter for our highest counted value
   for (int i = 0; i < indexCounterFW; i++) { // runs through the size of futureWin array
-    int count = 1; // initializes the counter for number of occurrences
-    for (int j = i + 1; j < indexCounterFW; j++) // runs through the rest of futureWin
+    int count = 1; 
+    for (int j = i + 1; j < indexCounterFW; j++)
       if (futureWin[i] == futureWin[j]) // compares the two values to see if they are equal
-        count++; // if they are equal incriments count by 1
+        count++; 
     if (count > max_count) // if count is ever bigger than max, count is our new max
       max_count = count;
   }
@@ -140,16 +138,12 @@ int Eval3::getNum(string board[], string p) { //eval 3 (kuda)
     for (int j = i + 1; j < indexCounterFW; j++) //grabs the rest of the values to compare to the first one at a time
       if (futureWin[i] == futureWin[j]) // if both values are the same increase our count by 1
         count++;
-    if (count == max_count) { // This doesn't work as intended after going back through. It was supposed to keep adding the values with the same occurences to a counter then return that counter.
+    if (count == max_count) {
         maxCounter++;
     }
   }
 
-  if(maxCounter > 1){
-    value += maxCounter;
-  }
-
-  return value; // otherwise return 
+  return maxCounter; 
 }
 
 int Eval4::getNum(string board[], string p) { //Twee's Eval
