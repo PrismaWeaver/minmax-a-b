@@ -15,6 +15,10 @@ class twoplayer {
         int nodeCounter;
         int nodeCountX;
         int nodeCountO;
+        int avgXNodes;
+        int avgONodes;
+        int turnCountX;
+        int turnCountO;
 
         //MINMAX_A_B
         //THE HEART OF THIS ENTIRE PROGRAM
@@ -89,15 +93,21 @@ class twoplayer {
             nodeCounter = 0;
             TTT temp = game.getBoard();
             VP move = minmax_a_b(temp.board, 0, p, e, -500, 500);
-            if (p == "X") nodeCountX += nodeCounter;
-            else nodeCountO += nodeCounter;
+
+            if (p == "X"){
+                nodeCountX += nodeCounter;
+            }
+            else{
+                nodeCountO += nodeCounter;
+            }
+
             if (!game.add(move.path.board)) cout << "Error: Invalid move detected" << endl;
             return game.goal();
         }
 
         void metaCount() {
-            cout << "Player 1 (X) used " << nodeCountX << " nodes total. " << endl;
-            cout << "Player 2 (O) used " << nodeCountO << " nodes total. " << endl;
+            cout << "Player 1 (X) used " << nodeCountX << " nodes total, with an average of " << nodeCountX/turnCountX << " nodes generated per turn." << endl;
+            cout << "Player 2 (O) used " << nodeCountO << " nodes total, with an average of " << nodeCountO/turnCountO << " nodes generated per turn." << endl;
         }
 
         string swap(string p) {
@@ -111,6 +121,7 @@ class twoplayer {
             
 
             nodeCounter = nodeCountO = nodeCountX = 0;
+            turnCountX = turnCountO = 0;
             int winner = 0, count = 0;
             long long start, end;
             bool win = false;
@@ -119,9 +130,11 @@ class twoplayer {
                 p = swap(p);
                 if (p == "X") {
                     win = turn(p, max);
+                    turnCountX++;
                 }
                 else {
                     win = turn(p, min);
+                    turnCountO++;
                 }      
                 count++;
             }
