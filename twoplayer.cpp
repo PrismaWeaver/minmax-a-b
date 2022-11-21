@@ -111,11 +111,11 @@ class twoplayer {
             
 
             nodeCounter = nodeCountO = nodeCountX = 0;
-            int winner = 0;
+            int winner = 0, count = 0;
             long long start, end;
             bool win = false;
             string p = ""; //doesnt need to be initialized to anything bc swap will set it to X for us
-            while (!win && game.getTurn() < 10) {
+            while (!win && count < 9) {
                 p = swap(p);
                 if (p == "X") {
                     win = turn(p, max);
@@ -123,6 +123,7 @@ class twoplayer {
                 else {
                     win = turn(p, min);
                 }      
+                count++;
             }
             if (win) {
                 if (p == "X") winner = 1;
