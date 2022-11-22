@@ -3,7 +3,8 @@
 #include <chrono>
 
 int main() {
-    twoplayer engine;
+    twoplayer engine [16];
+    int counter = 0;
     Eval1 first;
     Eval2 second;
     Eval3 third;
@@ -26,7 +27,7 @@ int main() {
             cout << "X is " << p[i] << " and O is " << p[u] << endl;
 
             start = duration_cast<microseconds>(high_resolution_clock::now().time_since_epoch()).count();
-            winner = engine.playRound(e[i], e[u]);
+            winner = engine[counter].playRound(e[i], e[u]);
             end = duration_cast<microseconds>(high_resolution_clock::now().time_since_epoch()).count();
 
             if(i == 0 || u == 0){
@@ -52,8 +53,10 @@ int main() {
                 tieCount[u]++;
             } 
             cout << endl;
+            counter++;
         }
     }
+
     for (int j = 0; j < 4; j++) {
         cout << endl;
         cout << p[j] << " has won a total of " << winCount[j] << " and tied a total of " << tieCount[j] << " times!" << endl;

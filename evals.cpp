@@ -60,7 +60,7 @@ int Eval2::getNum(std::string board[], std::string p) { //eval 2 (chris)
     else if (diagnol2 == (p, " ", " ") || diagnol2 == (" "," ", p) || diagnol2 == (" ", p, " ")) p1++;
 
     
-    return (50*p3 + 5*p2 + p1);
+    return (50*p3 + 3*p2 + p1);
 };
 
 int Eval3::getNum(string board[], string p) { //eval 3 (kuda)
